@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Tracker</title>
+</head>
+<body>
+<h1>Expense Tracker</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="expense : ${expenses}">
+        <td th:text="${expense.date}"></td>
+        <td th:text="${expense.category}"></td>
+        <td th:text="${expense.amount}"></td>
+        <td th:text="${expense.description}"></td>
+        <td>
+            <a th:href="@{/expenses/edit/{id}(id=${expense.id})}">Edit</a> |
+            <form th:action="@{/expenses/delete/{id}(id=${expense.id})}" method="post">
+                <input type="hidden" name="_method" value="delete"/>
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<h2>Add Expense</h2>
+<form th:action="@{/expenses}" method="post" th:object="${expense}">
+    <label>Date: <input type="date" required th:field="*{date}"/></label><br/>
+    <label>Category: <input type="text" required th:field="*{category}"/></label><br/>
+    <label>Amount: <input type="number" step="0.01" required th:field="*{amount}"/></label><br/>
+    <label>Description: <input type="text" required th:field="*{description}"/></label><br/>
+    <button type="submit">Add Expense</button>
+</form>
+</body>
+</html>
